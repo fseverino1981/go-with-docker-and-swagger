@@ -6,9 +6,9 @@ import (
 
 type RestErr struct {
 	Message string   `json:"message"`
-	Err     string   `json":"error"`
+	Err     string   `json:"erro"`
 	Code    int      `json:"code"`
-	Causes  []Causes `json:causes,omitempty`
+	Causes  []Causes `json:"causes,omitempty"`
 }
 
 type Causes struct {
