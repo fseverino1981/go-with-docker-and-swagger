@@ -1,6 +1,7 @@
 package main
 
 import (
+	"go-with-docker-and-swagger/src/configuration/database/mongodb"
 	"go-with-docker-and-swagger/src/configuration/logger"
 	"go-with-docker-and-swagger/src/controller"
 	"go-with-docker-and-swagger/src/controller/routes"
@@ -18,6 +19,8 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
+	mongodb.InitConnection()
 
 	//Init Services
 	service := service.NewUserDomainService()
