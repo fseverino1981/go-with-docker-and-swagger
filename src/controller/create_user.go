@@ -4,11 +4,15 @@ import (
 	"go-with-docker-and-swagger/src/configuration/logger"
 	"go-with-docker-and-swagger/src/configuration/validation"
 	"go-with-docker-and-swagger/src/controller/model/request"
-	"go-with-docker-and-swagger/src/controller/model/response"
+	"go-with-docker-and-swagger/src/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+)
+
+var (
+	UserDomainInterface model.UserDomainInterface
 )
 
 func CreateUser(c *gin.Context) {
@@ -23,15 +27,14 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	response := response.UserRequest{
-		ID:    "test",
-		Email: userRequest.Email,
-		Name:  userRequest.Name,
-		Age:   userRequest.Age,
+	domain := model.NewUserDomain(userRequest.Email, userRequest.Password, userRequest.Name, userRequest.Age)
+
+	if err := domain.CreateUser(); err != nil {
+		c.JSON(err.Code, err)
 	}
 
 	logger.Info("User created successfully", zap.String("journey", "createUser"))
 
-	c.JSON(http.StatusOK, response)
+	c.String(http.StatusOK, "")
 
 }
