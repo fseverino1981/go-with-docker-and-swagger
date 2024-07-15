@@ -6,16 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func FindUserById(c *gin.Context){
-	
+func (uc *userControllerInterface) FindUserById(c *gin.Context) {
+
 	userID := c.Param("userId")
 
 	fmt.Println(userID)
 
 }
 
-
-func FindUserByEmail(c *gin.Context){
+func (uc *userControllerInterface) FindUserByEmail(c *gin.Context) {
 	userID := c.Param("userId")
 
 	fmt.Println(userID)
