@@ -5,6 +5,7 @@ import (
 	"go-with-docker-and-swagger/src/configuration/validation"
 	"go-with-docker-and-swagger/src/controller/model/request"
 	"go-with-docker-and-swagger/src/model"
+	"go-with-docker-and-swagger/src/model/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,7 +30,9 @@ func CreateUser(c *gin.Context) {
 
 	domain := model.NewUserDomain(userRequest.Email, userRequest.Password, userRequest.Name, userRequest.Age)
 
-	if err := domain.CreateUser(); err != nil {
+	service := service.NewUserDomainService()
+
+	if err := service.CreateUser(domain); err != nil {
 		c.JSON(err.Code, err)
 	}
 
