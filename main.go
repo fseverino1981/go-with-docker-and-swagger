@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"go-with-docker-and-swagger/src/configuration/database/mongodb"
 	"go-with-docker-and-swagger/src/configuration/logger"
 	"go-with-docker-and-swagger/src/controller"
 	"go-with-docker-and-swagger/src/controller/routes"
+	"go-with-docker-and-swagger/src/model/repository"
 	"go-with-docker-and-swagger/src/model/service"
 	"log"
 
@@ -20,10 +22,15 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	mongodb.InitConnection()
+	database, err := mongodb.NewMongoDBConnection(context.Background())
+	if err != nil {
+		log.Fatalf("Error trying to connect to database, error=%s \n", err.Error())
+		return
+	}
 
 	//Init Services
-	service := service.NewUserDomainService()
+	repo := repository.NewUserRepository(database)
+	service := service.NewUserDomainService(repo)
 	userController := controller.NewUserControllerInterface(service)
 
 	router := gin.Default()
