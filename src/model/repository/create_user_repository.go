@@ -13,10 +13,6 @@ import (
 	"go.uber.org/zap"
 )
 
-const (
-	MONGODB_USER_DB = "MONGODB_USER_DB"
-)
-
 func NewUserRepository(database *mongo.Database) UserRepository {
 	return &userRepository{
 		database,
@@ -25,7 +21,7 @@ func NewUserRepository(database *mongo.Database) UserRepository {
 
 func (ur userRepository) CreateUser(userDomain model.UserDomainInterface) (model.UserDomainInterface, *rest_err.RestErr) {
 
-	logger.Info("Init userCreate repository", zap.String("journey", "createUser"))
+	logger.Info("Init createUser repository", zap.String("journey", "createUser"))
 	collection_name := os.Getenv(MONGODB_USER_DB)
 
 	collection := ur.databaseConnection.Collection(collection_name)
