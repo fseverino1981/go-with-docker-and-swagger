@@ -34,10 +34,14 @@ func (ur userRepository) CreateUser(userDomain model.UserDomainInterface) (model
 
 	result, err := collection.InsertOne(context.Background(), value)
 	if err != nil {
+		logger.Error("Error trying to create user", err, zap.String("journey", "createUser"))
 		return nil, rest_err.NewInternalServerError(err.Error())
 	}
 
 	value.ID = result.InsertedID.(primitive.ObjectID)
+
+	logger.Info("CreateUser repository executed successfully", zap.String("userId", value.ID.Hex()),
+		zap.String("journey", "createUser"))
 
 	return converter.ConvertEntityToDomain(*value), nil
 }
