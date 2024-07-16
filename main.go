@@ -4,10 +4,7 @@ import (
 	"context"
 	"go-with-docker-and-swagger/src/configuration/database/mongodb"
 	"go-with-docker-and-swagger/src/configuration/logger"
-	"go-with-docker-and-swagger/src/controller"
 	"go-with-docker-and-swagger/src/controller/routes"
-	"go-with-docker-and-swagger/src/model/repository"
-	"go-with-docker-and-swagger/src/model/service"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -28,10 +25,7 @@ func main() {
 		return
 	}
 
-	//Init Services
-	repo := repository.NewUserRepository(database)
-	service := service.NewUserDomainService(repo)
-	userController := controller.NewUserControllerInterface(service)
+	userController := initDependencies(database)
 
 	router := gin.Default()
 	routes.InitRoutes(&router.RouterGroup, userController)
