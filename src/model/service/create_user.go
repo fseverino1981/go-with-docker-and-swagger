@@ -11,8 +11,13 @@ import (
 func (ud *userDomainService) CreateUserServices(userDomain model.UserDomainInterface) (model.UserDomainInterface, *rest_err.RestErr) {
 
 	logger.Info("Init createUser model", zap.String("jorney", "createUser"))
-	userDomain.EncryptPassword()
 
+	user, _ := ud.FindUserByEmailServices(userDomain.GetEmail())
+	if user != nil {
+		return nil, rest_err.NewBadRequestError("Email is already registered in another account")
+	}
+
+	userDomain.EncryptPassword()
 	userDomainRepository, err := ud.userRepository.CreateUser(userDomain)
 	if err != nil {
 		logger.Error("Error try to call repository", err, zap.String("jorney", "createUser"))
