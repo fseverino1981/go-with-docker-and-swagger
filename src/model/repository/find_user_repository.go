@@ -11,6 +11,7 @@ import (
 	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"
 )
@@ -47,6 +48,7 @@ func (ur *userRepository) FindUserByEmail(email string) (model.UserDomainInterfa
 		zap.String("userID", userEntity.ID.Hex()))
 	return converter.ConvertEntityToDomain(*userEntity), nil
 }
+
 func (ur *userRepository) FindUserByID(id string) (model.UserDomainInterface, *rest_err.RestErr) {
 	logger.Info("Init findUserByID repository", zap.String("journey", "findUserByID"))
 	collection_name := os.Getenv(MONGODB_USER_DB)
@@ -55,7 +57,8 @@ func (ur *userRepository) FindUserByID(id string) (model.UserDomainInterface, *r
 
 	userEntity := &entity.UserEntity{}
 
-	filter := bson.D{{Key: "_id", Value: id}}
+	objectId, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.D{{Key: "_id", Value: objectId}}
 	err := collection.FindOne(context.Background(), filter).Decode(userEntity)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
