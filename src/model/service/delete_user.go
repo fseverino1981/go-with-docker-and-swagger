@@ -8,7 +8,7 @@ import (
 )
 
 func (ud *userDomainService) DeleteUserServices(userId string) *rest_err.RestErr {
-	logger.Info("Init deleteUser model", zap.String("jorney", "deleteUser"))
+	logger.Info("Init deleteUser services", zap.String("jorney", "deleteUser"))
 
 	err := ud.userRepository.DeleteUser(userId)
 	if err != nil {

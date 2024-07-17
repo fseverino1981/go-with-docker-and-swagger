@@ -10,7 +10,7 @@ import (
 
 func (ud *userDomainService) CreateUserServices(userDomain model.UserDomainInterface) (model.UserDomainInterface, *rest_err.RestErr) {
 
-	logger.Info("Init createUser model", zap.String("jorney", "createUser"))
+	logger.Info("Init createUser services", zap.String("jorney", "createUser"))
 
 	user, _ := ud.FindUserByEmailServices(userDomain.GetEmail())
 	if user != nil {
