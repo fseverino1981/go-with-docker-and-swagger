@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"go-with-docker-and-swagger/src/configuration/logger"
 	"go-with-docker-and-swagger/src/configuration/rest_err"
+	"go-with-docker-and-swagger/src/model"
 	"go-with-docker-and-swagger/src/view"
 	"net/http"
 	"net/mail"
@@ -15,6 +17,14 @@ import (
 func (uc *userControllerInterface) FindUserById(c *gin.Context) {
 
 	logger.Info("Init findUserByID controller", zap.String("journey", "findUserByID"))
+
+	user, err := model.VerifToken(c.Request.Header.Get("Authorization"))
+	if err != nil {
+		c.JSON(err.Code, err)
+		return
+	}
+
+	logger.Info(fmt.Sprintf("User Authenticated: %v", user), zap.String("journey", "findUserByID"))
 
 	userID := c.Param("userId")
 	if _, err := primitive.ObjectIDFromHex(userID); err != nil {
