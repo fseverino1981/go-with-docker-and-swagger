@@ -1,5 +1,7 @@
 package model
 
+import "go-with-docker-and-swagger/src/configuration/rest_err"
+
 type UserDomainInterface interface {
 	GetEmail() string
 	GetPassword() string
@@ -9,6 +11,7 @@ type UserDomainInterface interface {
 
 	SetID(string)
 	EncryptPassword()
+	GeneralToken() (string, *rest_err.RestErr)
 }
 
 func NewUserDomain(email, password, name string, age int8) UserDomainInterface {
