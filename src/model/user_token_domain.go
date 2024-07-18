@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-with-docker-and-swagger/src/configuration/rest_err"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -34,4 +35,41 @@ func (ud *userDomain) GeneralToken() (string, *rest_err.RestErr) {
 
 	return tokenString, nil
 
+}
+
+func VerifToken(tokenValeu string) (UserDomainInterface, *rest_err.RestErr) {
+
+	secret := os.Getenv(JWT_SECRET_KEY)
+
+	token, err := jwt.Parse(RemoveBearerPrefix(tokenValeu), func(token *jwt.Token) (interface{}, error) {
+
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); ok {
+			return []byte(secret), nil
+		}
+
+		return nil, rest_err.NewBadRequestError("Invalid token")
+	})
+	if err != nil {
+		return nil, rest_err.NewUnauthorizedRequestError("Invalid token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid {
+		return nil, rest_err.NewUnauthorizedRequestError("Invalid token")
+	}
+
+	return &userDomain{
+		id:    claims["id"].(string),
+		email: claims["email"].(string),
+		name:  claims["name"].(string),
+		age:   int8(claims["age"].(float64)),
+	}, nil
+}
+
+func RemoveBearerPrefix(token string) string {
+	if strings.HasPrefix(token, "Bearer ") {
+		token = strings.TrimPrefix("Bearer ", token)
+	}
+
+	return token
 }
