@@ -16,7 +16,11 @@ func TestUserRepository_FindUserByEmail(t *testing.T) {
 	databaseName := "user_database_test"
 	collectionName := "user_collection_test"
 
-	os.Setenv("MONGODB_USER_DB", collectionName)
+	err := os.Setenv("MONGODB_USER_DB", collectionName)
+	if err != nil {
+		t.FailNow()
+		return
+	}
 	defer os.Clearenv()
 
 	mtestDb := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
@@ -81,17 +85,21 @@ func TestUserRepository_FindUserByEmail(t *testing.T) {
 	})
 }
 
-func TestUserRepository_FindUserByid(t *testing.T) {
+func TestUserRepository_FindUserById(t *testing.T) {
 
 	databaseName := "user_database_test"
 	collectionName := "user_collection_test"
 
-	os.Setenv("MONGODB_USER_DB", collectionName)
+	err := os.Setenv("MONGODB_USER_DB", collectionName)
+	if err != nil {
+		t.FailNow()
+		return
+	}
 	defer os.Clearenv()
 
 	mtestDb := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 
-	mtestDb.Run("when_a_valid_email_returbs_success", func(mt *mtest.T) {
+	mtestDb.Run("when_a_valid_id_returbs_success", func(mt *mtest.T) {
 		userEntity := entity.UserEntity{
 			ID:       primitive.NewObjectID(),
 			Email:    "test@test.com",
@@ -120,7 +128,7 @@ func TestUserRepository_FindUserByid(t *testing.T) {
 
 	})
 
-	mtestDb.Run("when_sending_a_email_and_returns_error", func(mt *mtest.T) {
+	mtestDb.Run("when_sending_a_id_and_returns_error", func(mt *mtest.T) {
 
 		mt.AddMockResponses(bson.D{
 			{Key: "ok", Value: 0},
@@ -135,7 +143,7 @@ func TestUserRepository_FindUserByid(t *testing.T) {
 		assert.Nil(t, userDomain)
 	})
 
-	mtestDb.Run("when_sending_a_valid_email_and_returns_error_not_found", func(mt *mtest.T) {
+	mtestDb.Run("when_sending_a_valid_id_and_returns_error_not_found", func(mt *mtest.T) {
 
 		mt.AddMockResponses(mtest.CreateCursorResponse(
 			0,
@@ -156,12 +164,16 @@ func TestUserRepository_FindUserByEmailAndPassword(t *testing.T) {
 	databaseName := "user_database_test"
 	collectionName := "user_collection_test"
 
-	os.Setenv("MONGODB_USER_DB", collectionName)
+	err := os.Setenv("MONGODB_USER_DB", collectionName)
+	if err != nil {
+		t.FailNow()
+		return
+	}
 	defer os.Clearenv()
 
 	mtestDb := mtest.New(t, mtest.NewOptions().ClientType(mtest.Mock))
 
-	mtestDb.Run("when_sending_a_valid_email_returns_success", func(mt *mtest.T) {
+	mtestDb.Run("when_sending_a_valid_email_and_password_returns_success", func(mt *mtest.T) {
 		userEntity := entity.UserEntity{
 			ID:       primitive.NewObjectID(),
 			Email:    "test@test.com",
@@ -189,7 +201,7 @@ func TestUserRepository_FindUserByEmailAndPassword(t *testing.T) {
 		assert.EqualValues(t, userDomain.GetPassword(), userEntity.Password)
 	})
 
-	mtestDb.Run("when_sending_a_email_and_returns_error", func(mt *mtest.T) {
+	mtestDb.Run("when_sending_a_email_and_password_and_returns_error", func(mt *mtest.T) {
 
 		mt.AddMockResponses(bson.D{
 			{Key: "ok", Value: 0},
@@ -204,7 +216,7 @@ func TestUserRepository_FindUserByEmailAndPassword(t *testing.T) {
 		assert.Nil(t, userDomain)
 	})
 
-	mtestDb.Run("when_sending_a_valid_email_and_returns_error_not_found", func(mt *mtest.T) {
+	mtestDb.Run("when_sending_a_valid_email_and_password_and_returns_error_not_found", func(mt *mtest.T) {
 
 		mt.AddMockResponses(mtest.CreateCursorResponse(
 			0,
