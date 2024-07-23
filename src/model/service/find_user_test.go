@@ -98,7 +98,7 @@ func TestUserDomainService_FindUserByEmailAndPasswordServices(t *testing.T) {
 	defer ctrl.Finish()
 
 	repository := mocks.NewMockUserRepository(ctrl)
-	service := NewUserDomainService(repository)
+	service := &userDomainService{repository}
 
 	t.Run("when_exists_an_user_returns_success",
 		func(t *testing.T) {
