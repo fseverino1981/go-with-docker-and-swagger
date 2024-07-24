@@ -22,7 +22,7 @@ func NewUserRepository(database *mongo.Database) UserRepository {
 func (ur userRepository) CreateUser(userDomain model.UserDomainInterface) (model.UserDomainInterface, *rest_err.RestErr) {
 
 	logger.Info("Init createUser repository", zap.String("journey", "createUser"))
-	collection_name := os.Getenv(MONGODB_USER_DB)
+	collection_name := os.Getenv(MONGODB_USER_COLLECTION)
 
 	collection := ur.databaseConnection.Collection(collection_name)
 

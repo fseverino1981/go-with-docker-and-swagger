@@ -17,12 +17,12 @@ import (
 )
 
 const (
-	MONGODB_USER_DB = "MONGODB_USER_DB"
+	MONGODB_USER_COLLECTION = "MONGODB_USER_COLLECTION"
 )
 
 func (ur *userRepository) FindUserByEmail(email string) (model.UserDomainInterface, *rest_err.RestErr) {
 	logger.Info("Init findUserByEmail repository", zap.String("journey", "findUserByEmail"))
-	collection_name := os.Getenv(MONGODB_USER_DB)
+	collection_name := os.Getenv(MONGODB_USER_COLLECTION)
 
 	collection := ur.databaseConnection.Collection(collection_name)
 
@@ -51,7 +51,7 @@ func (ur *userRepository) FindUserByEmail(email string) (model.UserDomainInterfa
 
 func (ur *userRepository) FindUserByID(id string) (model.UserDomainInterface, *rest_err.RestErr) {
 	logger.Info("Init findUserByID repository", zap.String("journey", "findUserByID"))
-	collection_name := os.Getenv(MONGODB_USER_DB)
+	collection_name := os.Getenv(MONGODB_USER_COLLECTION)
 
 	collection := ur.databaseConnection.Collection(collection_name)
 
@@ -80,7 +80,7 @@ func (ur *userRepository) FindUserByID(id string) (model.UserDomainInterface, *r
 
 func (ur *userRepository) FindUserByEmailAndPassword(email, password string) (model.UserDomainInterface, *rest_err.RestErr) {
 	logger.Info("Init FindUserByEmailAndPassword repository", zap.String("journey", "findUserByEmailAndPassword"))
-	collection_name := os.Getenv(MONGODB_USER_DB)
+	collection_name := os.Getenv(MONGODB_USER_COLLECTION)
 
 	collection := ur.databaseConnection.Collection(collection_name)
 

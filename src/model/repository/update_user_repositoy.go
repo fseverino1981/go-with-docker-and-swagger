@@ -16,7 +16,7 @@ import (
 func (ur userRepository) UpdateUser(userID string, userDomain model.UserDomainInterface) *rest_err.RestErr {
 
 	logger.Info("Init updateUser repository", zap.String("journey", "updateUser"))
-	collection_name := os.Getenv(MONGODB_USER_DB)
+	collection_name := os.Getenv(MONGODB_USER_COLLECTION)
 
 	collection := ur.databaseConnection.Collection(collection_name)
 

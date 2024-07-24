@@ -14,7 +14,7 @@ import (
 func (ur userRepository) DeleteUser(userId string) *rest_err.RestErr {
 
 	logger.Info("Init deleteUser repository", zap.String("journey", "deleteUser"))
-	collection_name := os.Getenv(MONGODB_USER_DB)
+	collection_name := os.Getenv(MONGODB_USER_COLLECTION)
 
 	collection := ur.databaseConnection.Collection(collection_name)
 
