@@ -404,8 +404,7 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "API for crud operations on users",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
+
 }
 
 func init() {
