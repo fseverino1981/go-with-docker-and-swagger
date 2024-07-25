@@ -73,6 +73,6 @@ func NewForbiddenError(message string) *RestErr {
 	return &RestErr{
 		Message: message,
 		Err:     "forbidden",
-		Code:    http.StatusInternalServerError,
+		Code:    http.StatusForbidden,
 	}
 }
