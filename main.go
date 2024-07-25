@@ -11,6 +11,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// @title Go with Docker And Swagger
+// @version 1.0
+// @description API for crud operations on users
+// @host localhost:8080
+// @BasePath /
+// @schemes http
+// @license MIT
+
 func main() {
 	logger.Info("About to start user application")
 
