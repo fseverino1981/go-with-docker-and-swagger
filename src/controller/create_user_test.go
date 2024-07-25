@@ -5,7 +5,7 @@ import (
 	"go-with-docker-and-swagger/src/configuration/rest_err"
 	"go-with-docker-and-swagger/src/controller/model/request"
 	"go-with-docker-and-swagger/src/model"
-	"go-with-docker-and-swagger/src/test/mocks"
+	"go-with-docker-and-swagger/src/tests/mocks"
 	"io"
 	"net/http"
 	"net/http/httptest"

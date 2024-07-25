@@ -2,7 +2,7 @@ package service
 
 import (
 	"go-with-docker-and-swagger/src/configuration/rest_err"
-	"go-with-docker-and-swagger/src/test/mocks"
+	"go-with-docker-and-swagger/src/tests/mocks"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
