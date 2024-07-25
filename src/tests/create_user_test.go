@@ -85,7 +85,7 @@ func CreateUserTest(t *testing.T) {
 			filter := bson.D{{Key: "email", Value: email}}
 			_ = Database.
 				Collection(os.Getenv("MONGODB_USER_COLLECTION")).
-				FindOne(context.Background(), filter).Decode(userEntity)
+				FindOne(context.Background(), filter).Decode(&userEntity)
 
 			assert.EqualValues(t, http.StatusOK, recorder.Code)
 			assert.EqualValues(t, userRequest.Email, userEntity.Email)
