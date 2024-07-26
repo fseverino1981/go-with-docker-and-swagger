@@ -22,7 +22,7 @@ import (
 func main() {
 	logger.Info("About to start user application")
 
-	err := godotenv.Load()
+	err := godotenv.Load("app.env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
