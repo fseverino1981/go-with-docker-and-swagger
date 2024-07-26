@@ -1,0 +1,26 @@
+version: '3'
+services:
+  go-with-docker-and-swagger:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_USER_DB=users
+      - JWT_SECRET_KEY=WI9JFNWENFI2430FIN20FBN23BFU23UF239FB3
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    networks:
+      -   go-with-docker-and-swagger-network
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - go-with-docker-and-swagger-network
+
+networks:
+  go-with-docker-and-swagger-network:
